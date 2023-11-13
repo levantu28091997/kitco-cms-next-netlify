@@ -124,7 +124,7 @@ const Home = ({ ssrTimestamp }) => {
               <PlaceholderBlock />
             </div>
             <div className={clsx(gridAreas.gg)}>
-              <h2 className="font-bold">XAU Index</h2>
+              <h2 className="font-bold">XAU Index Test</h2>
               <Barcharts symbol="$XAU" href="/markets/indices/$XAU" />
             </div>
             <div className={clsx(gridAreas.hh)}>
