@@ -1,0 +1,6 @@
+TODOs
+make proxy for barchart api
+make proxy for extra endpoints around metals gainers / losers
+
+price of gold per currency
+USD PRICE OF GOLD x CURRENCY TO 1 USD

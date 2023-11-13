@@ -1,0 +1,36 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  # creationTimestamp: "2022-10-19T16:23:38Z"
+  generation: 2
+  labels:
+  name: kitco-frontend-dev-temp
+  namespace: kitco-frontend-dev
+spec:
+  rules:
+  - host: hello.dev.kitco.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: kitco-frontend-dev-nextjs
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - frontend.dev.kitco.com
+    secretName: kitco-frontend-dev-nextjs-le-frontend
+status:
+  loadBalancer:
+    ingress:
+    - ip: 34.95.11.93
+

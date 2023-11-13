@@ -1,0 +1,25 @@
+nextjs:
+  image:
+    repository: "us.gcr.io/kitco-224816/kitco-frontend"
+  nodeEnv: "production"
+  extraEnvs:
+    - name: NEXT_BOOST_REDIS_HOST
+      value: kitco-frontend-dev-redis 
+  livenessProbe:
+    enabled: true
+    path: "/health"
+  resources:
+    requests:
+      cpu: 400m
+      memory: 512Mi
+  ingress:
+    enabled: true
+    hostname: "nextjs.dev.kitco.com"
+    annotations:
+     nginx.ingress.kubernetes.io/blacklist-source-range: 10.40.9.6/32, 10.40.0.8/32,
+      10.40.6.4/32
+
+    tls:
+      enabled: true
+      secretName: "nextjs-frontend-tls-secret"
+

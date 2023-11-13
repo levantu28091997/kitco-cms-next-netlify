@@ -1,0 +1,9 @@
+dependencies:
+- name: nodejs
+  repository: https://favish.github.io/helm-charts/
+  version: 2.0.0
+- name: redis
+  repository: https://favish.github.io/helm-charts/
+  version: 2.0.1
+digest: sha256:f9f0f19a7b28d83c784b5c115149a108b44ac540a862b683a657ba6049f54289
+generated: "2023-05-03T16:53:53.887132-04:00"

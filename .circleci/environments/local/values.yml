@@ -1,0 +1,14 @@
+nextjs:
+  image:
+    repository: "node"
+    tag: "17"
+  nodeEnv: "production"
+  ingress:
+    enabled: true
+    hostname: "frontend.local.favish.com"
+    tls:
+      enabled: false
+  # resources:
+  #   cpu: 200m
+  #   memory: 200M
+

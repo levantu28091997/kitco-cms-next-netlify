@@ -1,0 +1,10 @@
+global:
+  hostname: "frontend.dev.kitco.com"
+  # cluster_container_cidr: "10.8.0.0/14"
+
+next:
+  image:
+    repository: "us.gcr.io/kitco-224816/kitco-cms-next"
+  nodeEnv: "production"
+  ingress:
+    enabled: true

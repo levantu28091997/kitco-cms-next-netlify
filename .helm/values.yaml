@@ -1,0 +1,20 @@
+nextjs:
+  image:
+    repository:
+    tag:
+  extraEnvs:
+  ingress:
+    enabled:
+    hostname:
+    tls:
+      enabled:
+  volume:
+    enabled:
+    hostPath:
+    command:
+    commandArgs:
+
+extra:
+
+redis:
+  enabled: true

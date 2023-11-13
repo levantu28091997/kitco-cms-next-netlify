@@ -1,0 +1,79 @@
+version: 2.1
+
+parameters:
+  cluster:
+    type: string
+    default: "kitco"
+  project-id:
+    type: string
+    default: "kitco-224816"
+  project:
+    type: string
+    default: "kitco-frontend"
+  helm-version:
+    type: string
+    default: v3.2.4
+
+orbs:
+  helm: circleci/helm@1.2.0
+  gcp-gcr: circleci/gcp-gcr@0.13.0
+  gcp-gke: circleci/gcp-gke@1.2.0
+  gcp-cli: circleci/gcp-cli@3.0.1
+  node: circleci/node@4.2.0
+
+jobs:
+  next-build-and-push-dev:
+    executor: gcp-gcr/default
+    steps:
+      - checkout
+      - gcp-gcr/build-image:
+          image: << pipeline.parameters.project >>
+          path: "next"
+          docker-context: "next"
+          tag: ${CIRCLE_SHA1}
+          registry-url: "us.gcr.io"
+      - gcp-gcr/gcr-auth
+      - gcp-gcr/push-image:
+          image: << pipeline.parameters.project >>
+          tag: ${CIRCLE_SHA1}
+          registry-url: "us.gcr.io"
+
+  upgrade-helm-chart-dev:
+    executor: gcp-gke/default
+    steps:
+      - checkout
+      - gcp-cli/setup:
+          components: "gke-gcloud-auth-plugin kubectl"
+      - gcp-gke/update-kubeconfig-with-credentials:
+          cluster: << pipeline.parameters.cluster >>
+          perform-login: true
+          install-kubectl: true
+      - helm/upgrade-helm-chart:
+          chart: .helm
+          helm-version: << pipeline.parameters.helm-version >>
+          namespace: kitco-frontend-dev
+          release-name: << pipeline.parameters.project >>-dev
+          values: .circleci/environments/dev/values.yml
+          values-to-override: "nextjs.image.tag=${CIRCLE_SHA1}"
+      # - run:
+      #     name: deploy extra ingress
+      #     command: |
+      #       kubectl delete ingress kitco-frontend-dev-temp
+      #       kubectl apply -f .circleci/environments/dev/ingress.yaml
+
+
+#pls
+workflows:
+  frontend-workflow:
+    jobs:
+
+      # dev branch
+      - next-build-and-push-dev:
+          filters:
+            branches:
+              only:
+                - dev
+      - upgrade-helm-chart-dev:
+          requires:
+            - next-build-and-push-dev
+

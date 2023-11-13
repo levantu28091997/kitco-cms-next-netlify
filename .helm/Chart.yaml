@@ -1,0 +1,17 @@
+name: kitco-frontend
+apiVersion: v1
+appVersion: "1.0"
+description: Kitco Frontend
+version: 0.1.0
+dependencies:
+- name: nodejs
+  version: "2.0.0"
+  repository: "https://favish.github.io/helm-charts/"
+  alias: nextjs
+  condition: nextjs.enabled
+
+- name: redis
+  version: "2.0.1"
+  repository: "https://favish.github.io/helm-charts/"
+  condition: redis.enabled
+
